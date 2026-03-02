@@ -1,198 +1,144 @@
-🚀 Vue 3 Register Form (Feature-based Architecture)
+# 🚀 Vue 3 Register Form (Feature-based Architecture)
 
-Demo project xây dựng form đăng ký (Register) đơn giản bằng Vue 3 + Vite + TailwindCSS, sử dụng Zod + vee-validate để validate dữ liệu theo hướng type-safe & production-ready.
+Demo project xây dựng **Register Form** với kiến trúc **feature-based**, áp dụng **type-safe validation** và **reusable UI components** theo style production-ready.
 
-Mục tiêu của project là:
+👉 Mục tiêu: clean code • scalable • dễ maintain
 
-Thực hành kiến trúc feature-based
+---
 
-Tổ chức code scalable, dễ maintain
+## 🧰 Tech Stack
 
-Áp dụng form validation hiện đại (Zod + vee-validate)
+⚡ Vue 3 (Composition API + `<script setup>`)  
+⚡ Vite  
+⚡ TypeScript  
+⚡ TailwindCSS  
+⚡ vee-validate  
+⚡ Zod + @vee-validate/zod  
+⚡ Vue Router  
 
-Tái sử dụng UI components (Input, Button, Checkbox) với Tailwind
+---
 
-🧰 Công nghệ sử dụng
+## ✨ Features
 
-Vue 3 (Composition API + <script setup>)
+### 📝 Register Form
+✅ Full name / Email / Password  
+✅ Confirm password  
+✅ Accept Terms checkbox  
+✅ Disable submit khi invalid  
+✅ Type-safe form data  
 
-Vite
+---
 
-Tailwind CSS
+### 🔐 Validation (Zod)
 
-vee-validate
-
-@vee-validate/zod
-
-Zod
-
-Vue Router
-
-TypeScript
-
-✨ Tính năng chính
-✅ Register form
-
-Validate bằng Zod schema
-
-Confirm password
-
-Checkbox đồng ý điều khoản (Terms)
-
-Disable submit khi form invalid
-
-Type-safe form data
-
-UI sạch, hiện đại với Tailwind
-
-✅ Validation kỹ thuật
-
-Áp dụng:
-
-🔹 z.literal(true)
-
-Bắt buộc người dùng tick checkbox:
-
+**Bắt buộc tick Terms**
+```ts
 acceptTerms: z.literal(true, {
-  message: 'You must accept the Terms of Service',
+  message: 'You must accept the Terms',
 })
-🔹 refine()
+```
 
-So sánh password:
-
-.refine((data) => data.password === data.confirmPassword, {
+**Confirm password**
+```ts
+.refine(d => d.password === d.confirmPassword, {
   path: ['confirmPassword'],
   message: 'Passwords do not match',
 })
-✅ Form control pattern
+```
+
+---
+
+### 🧠 Form Control Pattern
 
 Sử dụng:
 
-useForm()
-defineField()
+- `useForm()`
+- `defineField()`
 
-Giúp:
+👉 Lợi ích:
 
-tách logic khỏi UI
+- tách logic khỏi UI
+- type-safe
+- dễ test
+- dễ tái sử dụng
 
-type-safe
+---
 
-dễ test
+### 🎨 Reusable UI Components
 
-dễ tái sử dụng
+Custom Tailwind components:
 
-✅ Reusable UI components
-
-Custom các HTML cơ bản:
-
-Input
-
-Button
-
-Checkbox
-
-thành component Tailwind:
-
-<Input label="Email" required />
-<Button :disabled="isSubmitting" />
+- `<Input />`
+- `<Button />`
+- `<Checkbox />`
 
 👉 Giúp:
 
-đồng bộ style
+- đồng bộ style
+- tái sử dụng
+- code sạch hơn
 
-tái sử dụng
+---
 
-code sạch hơn
-
-📁 Kiến trúc thư mục (Feature-based)
-## 📁 Project structure
+## 📁 Project Structure (Feature-based)
 
 ```bash
 src
-├─ assets/
-│
 ├─ components/
-│  └─ ui/                # reusable UI components (Input, Button, Checkbox...)
+│  └─ ui/            # reusable UI
 │
 ├─ features/
-│  ├─ auth/
-│  │  ├─ components/     # feature-level components
-│  │  ├─ pages/          # Register, Login pages
-│  │  ├─ schemas/        # Zod validation schemas
-│  │  ├─ services/       # API calls
-│  │  ├─ stores/         # Pinia stores
-│  │  └─ routes.ts       # feature routes
-│  │
-│  └─ abc/               # example feature
+│  └─ auth/
+│     ├─ pages/
+│     ├─ components/
+│     ├─ schemas/
+│     ├─ services/
+│     ├─ stores/
+│     └─ routes.ts
 │
-├─ layouts/              # layout wrappers
-│
+├─ layouts/
 ├─ router/
-│  ├─ index.ts
-│  └─ guard.ts
-│
 ├─ App.vue
 └─ main.ts
 ```
-## 🌳 Render tree
+
+---
+
+## 🌳 Render Flow
 
 ```text
-main.ts
- └─ App.vue
+main
+ └─ App
      └─ RouterView
          └─ Layout
              └─ Page
-                 └─ Feature components
-                     └─ UI components
+                 └─ Feature
+                     └─ UI
 ```
-👉 Áp dụng theo flow chuẩn trong các dự án Vue thực tế.
 
-🚀 Cài đặt & chạy project
-1. Clone
+---
+
+## 🚀 Run Project
+
+```bash
 git clone https://github.com/XuanVietK67/vuejs_basic.git
 cd vuejs_basic
-2. Cài dependencies
 npm install
-3. Chạy dev server
 npm run dev
-🎯 Những gì học được
+```
 
-Sau project này:
+---
 
-🔹 Form validation hiện đại
+## 🎯 What I Learned
 
-Zod schema
+✅ Zod schema + type inference  
+✅ vee-validate nâng cao  
+✅ reusable Tailwind components  
+✅ feature-based architecture  
+✅ scalable folder structure  
 
-literal + refine
+---
 
-type inference
+## 📸 Demo
 
-🔹 vee-validate nâng cao
-
-useForm
-
-defineField
-
-meta.valid
-
-disable button theo validity
-
-🔹 UI architecture
-
-tách UI component
-
-reusable input/button
-
-tailwind design system
-
-🔹 Feature-based structure
-
-scale tốt cho project lớn
-
-tách biệt domain
-
-dễ maintain hơn folder-by-type
-
-📸 Demo
-
-![alt text](public/image.png)
+![demo](public/image.png)
