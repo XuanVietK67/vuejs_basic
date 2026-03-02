@@ -1,4 +1,4 @@
-# 🚀 Vue 3 Register Form (Feature-based Architecture)
+# 🚀 Simple application with Vue 3 (Register Form)
 
 Demo project xây dựng **Register Form** với kiến trúc **feature-based**, áp dụng **type-safe validation** và **reusable UI components** theo style production-ready.
 
