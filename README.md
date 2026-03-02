@@ -105,40 +105,46 @@ tái sử dụng
 code sạch hơn
 
 📁 Kiến trúc thư mục (Feature-based)
+## 📁 Project structure
+
+```bash
 src
-├─ assets
+├─ assets/
 │
-├─ components
-│  └─ ui                # reusable UI components (Input, Button,...)
+├─ components/
+│  └─ ui/                # reusable UI components (Input, Button, Checkbox...)
 │
-├─ features
-│  ├─ auth
-│  │  ├─ components     # feature components
-│  │  ├─ pages          # pages (Register, Login)
-│  │  ├─ schemas        # zod schemas
-│  │  ├─ services       # api calls
-│  │  ├─ stores         # pinia stores
-│  │  └─ routes.ts      # feature routes
+├─ features/
+│  ├─ auth/
+│  │  ├─ components/     # feature-level components
+│  │  ├─ pages/          # Register, Login pages
+│  │  ├─ schemas/        # Zod validation schemas
+│  │  ├─ services/       # API calls
+│  │  ├─ stores/         # Pinia stores
+│  │  └─ routes.ts       # feature routes
 │  │
-│  ├─ abc               # example feature
+│  └─ abc/               # example feature
 │
-├─ layouts              # layout wrappers
+├─ layouts/              # layout wrappers
 │
-├─ router
+├─ router/
 │  ├─ index.ts
 │  └─ guard.ts
 │
 ├─ App.vue
-├─ main.ts
-🧠 Render tree
-main
- → App
-   → RouterView
-     → Layout
-       → Page
-         → Feature components
-           → UI components
+└─ main.ts
+```
+## 🌳 Render tree
 
+```text
+main.ts
+ └─ App.vue
+     └─ RouterView
+         └─ Layout
+             └─ Page
+                 └─ Feature components
+                     └─ UI components
+```
 👉 Áp dụng theo flow chuẩn trong các dự án Vue thực tế.
 
 🚀 Cài đặt & chạy project
