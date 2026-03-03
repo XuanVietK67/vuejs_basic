@@ -1,21 +1,10 @@
-<!-- <template>
-  <div
-    class="min-h-screen flex items-center justify-center bg-gradient-to-br from-gray-50 to-gray-100 px-4"
-  >
-    <div class="w-full max-w-md">
-      <router-view />
-    </div>
-  </div>
-</template> -->
-
 <template>
   <div class="relative min-h-screen flex items-center justify-center overflow-hidden bg-slate-50">
-
     <!-- blobs -->
     <div class="blob blob-1"></div>
     <div class="blob blob-2"></div>
 
-    <div class="relative z-10 w-full max-w-md">
+    <div class="relative z-10 w-full max-w-lg overflow-hidden">
       <router-view />
     </div>
   </div>
@@ -46,7 +35,12 @@
 }
 
 @keyframes float {
-  0%,100% { transform: translate(0,0); }
-  50% { transform: translate(40px, 60px); }
+  0%,
+  100% {
+    transform: translate(0, 0);
+  }
+  50% {
+    transform: translate(40px, 60px);
+  }
 }
 </style>

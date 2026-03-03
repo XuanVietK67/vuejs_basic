@@ -5,9 +5,10 @@ import { registerSchema, type RegisterInput } from '../schemas/register.schema'
 
 import { useRouter } from 'vue-router'
 import Input from '@/components/ui/Input.vue'
-import Button from '@/components/ui/Button.vue'
 import { computed } from 'vue'
-import SocialRegisterButton from '@/features/auth/components/SocialRegisterButton.vue'
+import SocialLoginButton from '@/features/auth/components/SocialLoginButton.vue'
+import PasskeyButton from '@/features/auth/components/PasskeyButton.vue'
+import SocialGrid from '@/features/auth/components/SocialGrid.vue'
 
 function loginWithGoogle() {
   window.location.href = '/api/auth/google'
@@ -29,23 +30,12 @@ const isDisabled = computed(() => {
 })
 
 /* 🎯 bind fields */
-const [name, nameAttrs] = defineField('name', {
-  validateOnBlur: true,
-})
 
 const [email, emailAttrs] = defineField('email', {
   validateOnBlur: true,
 })
 
 const [password, passwordAttrs] = defineField('password', {
-  validateOnBlur: true,
-})
-
-const [confirmPassword, confirmPasswordAttrs] = defineField('confirmPassword', {
-  validateOnBlur: true,
-})
-
-const [accessTerm, accessTermAttrs] = defineField('acceptTerms', {
   validateOnBlur: true,
 })
 
@@ -69,18 +59,6 @@ const onSubmit = handleSubmit(async values => {
     </div>
 
     <form class="space-y-4" @submit="onSubmit">
-      <!-- Name -->
-      <div>
-        <Input
-          label="Full name"
-          v-model="name"
-          v-bind="nameAttrs"
-          placeholder="Alexandra"
-          :error="errors.name"
-          required
-        />
-      </div>
-
       <!-- Email -->
       <div>
         <Input
@@ -106,57 +84,33 @@ const onSubmit = handleSubmit(async values => {
           required
         />
       </div>
-
-      <!-- Confirm password -->
-      <div>
-        <Input
-          label="Confirm password"
-          type="password"
-          v-model="confirmPassword"
-          v-bind="confirmPasswordAttrs"
-          placeholder="******"
-          :error="errors.confirmPassword"
-          required
-        />
-      </div>
-
-      <!-- Terms -->
-
-      <div class="flex items-start gap-2 text-sm">
-        <input type="checkbox" v-model="accessTerm" v-bind="accessTermAttrs" class="mt-1" />
-
-        <label>
-          I agree to the
-          <a href="#" class="text-blue-600 underline">Terms of Service</a>
-          and
-          <a href="#" class="text-blue-600 underline">Privacy Policy</a>
-        </label>
-      </div>
-
-      <p class="text-sm text-red-500 mt-1">{{ errors.acceptTerms }}</p>
-
-      <Button
-        :disabled="isDisabled"
-        class="w-full h-11 rounded-xl bg-blue-600 text-white font-medium hover:bg-blue-700 disabled:opacity-50"
-      >
-        Create account
-      </Button>
     </form>
-
     <!-- Divider -->
-    <div class="relative text-center text-sm text-gray-400 my-5">
+    <!-- <div class="relative text-center text-sm text-gray-400 my-5">
       <span class="bg-white px-3 relative z-10">or continue with email</span>
       <div class="absolute inset-0 flex items-center">
         <div class="w-full border-t"></div>
       </div>
+    </div> -->
+
+    <!-- <SocialRegisterButton @google="loginWithGoogle" @github="loginWithGithub" /> -->
+    <!-- divider -->
+    <div class="flex items-center gap-3 text-xs text-slate-400">
+      <div class="h-px bg-slate-200 flex-1" />
+      or
+      <div class="h-px bg-slate-200 flex-1" />
     </div>
 
-    <SocialRegisterButton @google="loginWithGoogle" @github="loginWithGithub" />
+    <!-- passkey -->
+    <PasskeyButton />
+
+    <!-- social grid -->
+    <SocialGrid />
 
     <p class="text-center text-sm text-gray-500">
-      Already have an account?
-      <RouterLink to="/auth/login" class="text-blue-600 font-medium hover:underline">
-        Sign in
+      You don't have an account?
+      <RouterLink to="/auth/register" class="text-blue-600 font-medium hover:underline">
+        Register here !
       </RouterLink>
     </p>
   </div>
