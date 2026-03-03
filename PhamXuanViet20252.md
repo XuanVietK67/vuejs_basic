@@ -1,3 +1,98 @@
+# 🚀 OE Product Development Workflow – Quick Guide
+
+Tóm tắt **quy trình phát triển sản phẩm** theo chuẩn **Agile / Scrum / Kanban**  
+👉 Mục tiêu: đơn giản • dễ hiểu • dễ áp dụng thực tế
+
+---
+
+# 🔁 Software Development Process (5 Stages)
+
+```text
+Requirement → Design → Development → Testing/Review → Deploy
+```
+
+| Stage | 🎯 Mục đích |
+|--------|-----------|
+| 📋 Requirement | Thu thập yêu cầu từ customer/marketing |
+| 🎨 Design | Thiết kế UI/UX + kiến trúc hệ thống |
+| 💻 Development | Code tính năng |
+| 🧪 Testing/Review | Test + review chất lượng |
+| 🚀 Deploy | Release sản phẩm |
+
+---
+
+# 🏗️ Waterfall vs ⚡ Agile
+
+| | 🚿 Waterfall | ⚡ Agile |
+|---|-------------|-----------|
+| Cách làm | Tuần tự từng bước | Chia nhiều vòng nhỏ (sprint) |
+| Thay đổi | Khó | Dễ |
+| Feedback | Muộn | Sớm & liên tục |
+| Release | 1 lần cuối | Mỗi sprint |
+| Phù hợp | Yêu cầu cố định | Web/App/Startup |
+| Rủi ro | Sửa = làm lại từ đầu | Thấp |
+
+👉 **Rule nhớ nhanh:**  
+Waterfall = 1 lần lớn  
+Agile = nhiều lần nhỏ
+
+---
+
+# 🧩 Scrum (Agile Framework)
+
+## 📦 Sprint
+
+| Thuộc tính | Giá trị |
+|------------|-----------|
+| ⏳ Thời gian | ~ 2 tuần |
+| 🎯 Có | goal + tasks |
+| 🚀 Output | release mỗi sprint |
+
+## 🔄 Events
+
+- 📅 Sprint planning
+- ☀️ Daily scrum
+- 🔍 Sprint review
+- 📊 Weekly scrum
+
+👉 Mục tiêu: **ship nhỏ nhưng liên tục**
+
+---
+
+# 📋 Kanban Board (Task Tracking)
+
+## 🔁 Workflow
+
+```text
+To-do → In-progress → Code Review → QA Review → Passed → Done
+```
+
+## 📌 Status Meaning
+
+| Status | Ý nghĩa |
+|-----------|----------------|
+📝 To-do | chưa làm |
+🚧 In-progress | đang làm |
+👨‍💻 Code Review | dev review |
+🧪 QA Review | tester review |
+✅ Passed | đạt yêu cầu |
+🎉 Done | hoàn thành/deploy |
+🔁 Re-open | làm lại |
+⏸️ On-hold | chờ/block |
+
+👉 Task luôn di chuyển **trái → phải**
+
+---
+
+# 🎯 TL;DR
+
+- 🔁 5 bước: Req → Design → Dev → Test → Deploy  
+- ⚡ Agile > Waterfall cho project thay đổi nhiều  
+- 🧩 Scrum = quản lý sprint  
+- 📋 Kanban = quản lý task  
+
+---
+
 # 🚀 Simple application with Vue 3 (Register Form)
 
 Demo project xây dựng **Register Form** với kiến trúc **feature-based**, áp dụng **type-safe validation** và **reusable UI components** theo style production-ready.

@@ -65,9 +65,9 @@ const onSubmit = handleSubmit(async values => {
           v-model="name"
           v-bind="nameAttrs"
           placeholder="Alexandra"
+          :error="errors.name"
           required
         />
-        <p class="text-sm text-red-500 mt-1">{{ errors.name }}</p>
       </div>
 
       <!-- Email -->
@@ -78,9 +78,9 @@ const onSubmit = handleSubmit(async values => {
           v-model="email"
           v-bind="emailAttrs"
           placeholder="you@example.com"
+          :error="errors.email "
           required
         />
-        <p class="text-sm text-red-500 mt-1">{{ errors.email }}</p>
       </div>
 
       <!-- Password -->
@@ -91,9 +91,9 @@ const onSubmit = handleSubmit(async values => {
           v-model="password"
           v-bind="passwordAttrs"
           placeholder="******"
+          :error="errors.password"
           required
         />
-        <p class="text-sm text-red-500 mt-1">{{ errors.password }}</p>
       </div>
 
       <!-- Confirm password -->
@@ -104,9 +104,9 @@ const onSubmit = handleSubmit(async values => {
           v-model="confirmPassword"
           v-bind="confirmPasswordAttrs"
           placeholder="******"
+          :error="errors.confirmPassword"
           required
         />
-        <p class="text-sm text-red-500 mt-1">{{ errors.confirmPassword }}</p>
       </div>
 
       <!-- Terms -->
