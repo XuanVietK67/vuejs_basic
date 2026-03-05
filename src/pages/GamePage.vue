@@ -5,19 +5,19 @@
       <div class="max-w-4xl mx-auto px-4 py-4">
         <div class="flex items-center justify-between">
           <div class="flex items-center space-x-4">
-            <button
-              @click="goBack"
-              class="text-white hover:text-white/80 transition-colors"
-            >
+            <button @click="goBack" class="text-white hover:text-white/80 transition-colors">
               <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M15 19l-7-7 7-7"
+                />
               </svg>
             </button>
             <h1 class="text-xl font-bold text-white">Vocabulary Learning</h1>
           </div>
-          <div class="text-white text-sm">
-            {{ currentCardIndex + 1 }} / {{ vocabulary.length }}
-          </div>
+          <div class="text-white text-sm">{{ currentCardIndex + 1 }} / {{ vocabulary.length }}</div>
         </div>
       </div>
     </header>
@@ -59,11 +59,9 @@
 
       <!-- Flashcard Game -->
       <div v-else class="space-y-8">
-        <!-- Current Card -->
         <div class="bg-white/10 backdrop-blur-sm border border-white/20 rounded-2xl p-8 shadow-2xl">
           <div class="text-center">
-            <!-- Question Side -->
-            <div v-if="!showAnswer" class="space-y-6">
+            <div class="space-y-6">
               <div class="text-4xl mb-4">
                 <img
                   v-if="currentCard.image"
@@ -73,51 +71,48 @@
                 />
               </div>
               <h3 class="text-3xl font-bold text-white mb-4">{{ currentCard.question }}</h3>
-              <p class="text-white/80 text-lg">What does this mean?</p>
+              <p class="text-white/80 text-lg mb-6">Type your answer:</p>
+              <input
+                v-model="userAnswer"
+                :disabled="answerChecked"
+                @keyup.enter="checkAnswer"
+                class="w-full max-w-md px-4 py-3 text-lg text-center bg-white/20 border-2 border-white/30 rounded-lg text-white placeholder-white/60 focus:outline-none focus:border-white/60 transition-colors"
+                :class="{
+                  'border-green-400 bg-green-500/20 animate-correct': answerChecked && isCorrect,
+                  'border-red-400 bg-red-500/20 animate-wrong': answerChecked && !isCorrect,
+                }"
+                placeholder="Type your answer here..."
+                ref="answerInput"
+              />
+              <transition name="fade">
+                <div v-if="answerChecked" class="flex flex-col items-center mt-4">
+                  <div
+                    class="text-2xl font-bold mb-2"
+                    :class="
+                      isCorrect ? 'text-green-400 animate-correct' : 'text-red-400 animate-wrong'
+                    "
+                  >
+                    {{ isCorrect ? '✅ Correct!' : '❌ Incorrect' }}
+                  </div>
+                  <div v-if="!isCorrect" class="bg-white/20 rounded-lg p-2 mt-2">
+                    <span class="text-white/80 text-sm">Correct answer:</span>
+                    <span class="text-white text-lg font-medium">{{ currentCard.answer }}</span>
+                  </div>
+                  <button
+                    @click="nextCard"
+                    class="bg-purple-600 text-white px-8 py-3 rounded-lg font-semibold shadow hover:bg-purple-700 transition-colors mt-4"
+                  >
+                    Next
+                  </button>
+                </div>
+              </transition>
               <button
-                @click="revealAnswer"
-                class="bg-white text-purple-600 px-8 py-3 rounded-lg font-semibold hover:bg-gray-100 transition-colors"
+                v-if="!answerChecked"
+                @click="checkAnswer"
+                class="bg-white text-purple-600 px-8 py-3 rounded-lg font-semibold hover:bg-gray-100 transition-colors mt-4"
               >
-                Reveal Answer
+                Check Answer
               </button>
-            </div>
-
-            <!-- Answer Side -->
-            <div v-else class="space-y-6">
-              <div class="text-4xl mb-4">
-                <img
-                  v-if="currentCard.image"
-                  :src="currentCard.image"
-                  :alt="currentCard.question"
-                  class="w-20 h-20 mx-auto mb-4 object-contain"
-                />
-              </div>
-              <h3 class="text-2xl font-bold text-white mb-2">{{ currentCard.question }}</h3>
-              <div class="bg-white/20 rounded-lg p-4 mb-6">
-                <p class="text-white text-xl font-medium">{{ currentCard.answer }}</p>
-              </div>
-
-              <!-- Difficulty Buttons -->
-              <div class="flex justify-center space-x-4">
-                <button
-                  @click="answerCard('easy')"
-                  class="bg-green-500 text-white px-6 py-2 rounded-lg font-semibold hover:bg-green-600 transition-colors"
-                >
-                  Easy
-                </button>
-                <button
-                  @click="answerCard('medium')"
-                  class="bg-yellow-500 text-white px-6 py-2 rounded-lg font-semibold hover:bg-yellow-600 transition-colors"
-                >
-                  Medium
-                </button>
-                <button
-                  @click="answerCard('hard')"
-                  class="bg-red-500 text-white px-6 py-2 rounded-lg font-semibold hover:bg-red-600 transition-colors"
-                >
-                  Hard
-                </button>
-              </div>
             </div>
           </div>
         </div>
@@ -226,46 +221,89 @@ interface GameCard {
 
 // Vocabulary data
 const vocabulary: VocabularyItem[] = [
-  { english: 'Agenda', vietnamese: 'chương trình họp / nội dung cuộc họp', image: '/images/vocab/agenda.svg' },
-  { english: 'Schedule', vietnamese: 'lịch trình / sắp xếp lịch', image: '/images/vocab/schedule.svg' },
+  {
+    english: 'Agenda',
+    vietnamese: 'chương trình họp / nội dung cuộc họp',
+    image: '/images/vocab/agenda.svg',
+  },
+  {
+    english: 'Schedule',
+    vietnamese: 'lịch trình / sắp xếp lịch',
+    image: '/images/vocab/schedule.svg',
+  },
   { english: 'Reschedule', vietnamese: 'dời lịch', image: '/images/vocab/reschedule.svg' },
   { english: 'Postpone', vietnamese: 'hoãn lại', image: '/images/vocab/postpone.svg' },
   { english: 'Cancel', vietnamese: 'hủy bỏ', image: '/images/vocab/cancel.svg' },
-  { english: 'Availability', vietnamese: 'thời gian rảnh', image: '/images/vocab/availability.svg' },
+  {
+    english: 'Availability',
+    vietnamese: 'thời gian rảnh',
+    image: '/images/vocab/availability.svg',
+  },
   { english: 'Appointment', vietnamese: 'cuộc hẹn', image: '/images/vocab/appointment.svg' },
   { english: 'Deadline', vietnamese: 'hạn chót', image: '/images/vocab/deadline.svg' },
   { english: 'Time slot', vietnamese: 'khung giờ', image: '/images/vocab/time-slot.svg' },
-  { english: 'Conference room', vietnamese: 'phòng họp', image: '/images/vocab/conference-room.svg' },
-  { english: 'Briefing', vietnamese: 'buổi họp ngắn / phổ biến thông tin', image: '/images/vocab/briefing.svg' },
+  {
+    english: 'Conference room',
+    vietnamese: 'phòng họp',
+    image: '/images/vocab/conference-room.svg',
+  },
+  {
+    english: 'Briefing',
+    vietnamese: 'buổi họp ngắn / phổ biến thông tin',
+    image: '/images/vocab/briefing.svg',
+  },
   { english: 'Wrap-up', vietnamese: 'phần tổng kết', image: '/images/vocab/wrap-up.svg' },
   { english: 'Follow-up', vietnamese: 'theo dõi / họp tiếp', image: '/images/vocab/follow-up.svg' },
   { english: 'Attendee', vietnamese: 'người tham dự', image: '/images/vocab/attendee.svg' },
-  { english: 'Facilitator', vietnamese: 'người điều phối cuộc họp', image: '/images/vocab/facilitator.svg' },
-  { english: 'Minutes (of the meeting)', vietnamese: 'biên bản cuộc họp', image: '/images/vocab/minutes.svg' },
+  {
+    english: 'Facilitator',
+    vietnamese: 'người điều phối cuộc họp',
+    image: '/images/vocab/facilitator.svg',
+  },
+  {
+    english: 'Minutes (of the meeting)',
+    vietnamese: 'biên bản cuộc họp',
+    image: '/images/vocab/minutes.svg',
+  },
   { english: 'Consensus', vietnamese: 'sự đồng thuận', image: '/images/vocab/consensus.svg' },
-  { english: 'Conflict (schedule conflict)', vietnamese: 'trùng lịch', image: '/images/vocab/conflict.svg' },
-  { english: 'Allocate (time/resources)', vietnamese: 'phân bổ', image: '/images/vocab/allocate.svg' },
-  { english: 'Tentative', vietnamese: 'tạm thời / chưa xác nhận', image: '/images/vocab/tentative.svg' }
+  {
+    english: 'Conflict (schedule conflict)',
+    vietnamese: 'trùng lịch',
+    image: '/images/vocab/conflict.svg',
+  },
+  {
+    english: 'Allocate (time/resources)',
+    vietnamese: 'phân bổ',
+    image: '/images/vocab/allocate.svg',
+  },
+  {
+    english: 'Tentative',
+    vietnamese: 'tạm thời / chưa xác nhận',
+    image: '/images/vocab/tentative.svg',
+  },
 ]
 
 // Game state
 const gameStarted = ref(false)
 const gameMode = ref<'english-to-vietnamese' | 'vietnamese-to-english'>('english-to-vietnamese')
 const currentCardIndex = ref(0)
-const showAnswer = ref(false)
+const userAnswer = ref('')
+const answerChecked = ref(false)
+const isCorrect = ref(false)
 const gameCards = ref<GameCard[]>([])
 const gameCompleted = ref(false)
+const answerInput = ref<HTMLInputElement>()
 
 // Statistics
 const stats = ref({
   correct: 0,
   incorrect: 0,
-  accuracy: 0
+  accuracy: 0,
 })
 
 const currentCard = computed(() => gameCards.value[currentCardIndex.value])
 
-const shuffleArray = <T>(array: T[]): T[] => {
+const shuffleArray = <T,>(array: T[]): T[] => {
   const shuffled = [...array]
   for (let i = shuffled.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1))
@@ -281,14 +319,16 @@ const startGame = (mode: 'english-to-vietnamese' | 'vietnamese-to-english') => {
   gameStarted.value = true
   gameCompleted.value = false
   currentCardIndex.value = 0
-  showAnswer.value = false
+  userAnswer.value = ''
+  answerChecked.value = false
+  isCorrect.value = false
 
   // Create game cards based on mode
   gameCards.value = vocabulary.map(item => ({
     question: mode === 'english-to-vietnamese' ? item.english : item.vietnamese,
     answer: mode === 'english-to-vietnamese' ? item.vietnamese : item.english,
     image: item.image,
-    difficulty: 'medium' as const
+    difficulty: 'medium' as const,
   }))
 
   // Shuffle the cards
@@ -298,37 +338,36 @@ const startGame = (mode: 'english-to-vietnamese' | 'vietnamese-to-english') => {
   stats.value = {
     correct: 0,
     incorrect: 0,
-    accuracy: 0
+    accuracy: 0,
   }
 }
 
-const revealAnswer = () => {
-  showAnswer.value = true
-}
-
-const answerCard = (difficulty: 'easy' | 'medium' | 'hard') => {
-  // Update stats based on difficulty
-  if (difficulty === 'easy') {
-    stats.value.correct++
-  } else if (difficulty === 'medium') {
+const checkAnswer = () => {
+  if (!currentCard.value || answerChecked.value) return
+  const userInput = userAnswer.value.trim().toLowerCase()
+  const correctAnswer = currentCard.value.answer.toLowerCase()
+  isCorrect.value = userInput === correctAnswer
+  answerChecked.value = true
+  // Update stats
+  if (isCorrect.value) {
     stats.value.correct++
   } else {
     stats.value.incorrect++
   }
-
   // Update accuracy
   const total = stats.value.correct + stats.value.incorrect
   stats.value.accuracy = total > 0 ? (stats.value.correct / total) * 100 : 0
-
-  // Move to next card
-  nextCard()
 }
 
 const nextCard = () => {
-  showAnswer.value = false
-
+  userAnswer.value = ''
+  answerChecked.value = false
+  isCorrect.value = false
   if (currentCardIndex.value < gameCards.value.length - 1) {
     currentCardIndex.value++
+    setTimeout(() => {
+      answerInput.value?.focus()
+    }, 100)
   } else {
     gameCompleted.value = true
   }
@@ -337,7 +376,12 @@ const nextCard = () => {
 const previousCard = () => {
   if (currentCardIndex.value > 0) {
     currentCardIndex.value--
-    showAnswer.value = false
+    userAnswer.value = ''
+    answerChecked.value = false
+    isCorrect.value = false
+    setTimeout(() => {
+      answerInput.value?.focus()
+    }, 100)
   }
 }
 
@@ -345,7 +389,9 @@ const resetGame = () => {
   gameStarted.value = false
   gameCompleted.value = false
   currentCardIndex.value = 0
-  showAnswer.value = false
+  userAnswer.value = ''
+  answerChecked.value = false
+  isCorrect.value = false
 }
 
 const goBack = () => {
@@ -360,5 +406,52 @@ onMounted(() => {
 <style scoped>
 .backdrop-blur-sm {
   backdrop-filter: blur(4px);
+}
+</style>
+<style scoped>
+@keyframes correct {
+  0% {
+    transform: scale(1);
+  }
+  60% {
+    transform: scale(1.08);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+@keyframes wrong {
+  0% {
+    transform: translateX(0);
+  }
+  20% {
+    transform: translateX(-8px);
+  }
+  40% {
+    transform: translateX(8px);
+  }
+  60% {
+    transform: translateX(-8px);
+  }
+  80% {
+    transform: translateX(8px);
+  }
+  100% {
+    transform: translateX(0);
+  }
+}
+.animate-correct {
+  animation: correct 0.5s;
+}
+.animate-wrong {
+  animation: wrong 0.5s;
+}
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.3s;
+}
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
 }
 </style>
