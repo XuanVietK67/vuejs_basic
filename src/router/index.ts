@@ -11,6 +11,11 @@ const router = createRouter({
       name: 'home',
       component: () => import('@/pages/HomePage.vue'),
     },
+    {
+      path: '/game',
+      name: 'game',
+      component: () => import('@/pages/GamePage.vue'),
+    },
     ...authRoutes,
   ],
   scrollBehavior: () => ({ top: 0 }),
