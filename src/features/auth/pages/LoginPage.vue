@@ -5,28 +5,19 @@ import { registerSchema, type RegisterInput } from '../schemas/register.schema'
 
 import { useRouter } from 'vue-router'
 import Input from '@/components/ui/Input.vue'
-import { computed } from 'vue'
-import SocialLoginButton from '@/features/auth/components/SocialLoginButton.vue'
 import PasskeyButton from '@/features/auth/components/PasskeyButton.vue'
 import SocialGrid from '@/features/auth/components/SocialGrid.vue'
-
-function loginWithGoogle() {
-  window.location.href = '/api/auth/google'
-}
-
-function loginWithGithub() {
-  window.location.href = '/api/auth/github'
-}
 
 const router = useRouter()
 
 /* 🎯 form setup */
-const { handleSubmit, defineField, errors, isSubmitting, values } = useForm<RegisterInput>({
+const {
+  handleSubmit,
+  defineField,
+  errors,
+  // , isSubmitting, values
+} = useForm<RegisterInput>({
   validationSchema: toTypedSchema(registerSchema),
-})
-
-const isDisabled = computed(() => {
-  return isSubmitting.value || !values.acceptTerms
 })
 
 /* 🎯 bind fields */
@@ -54,7 +45,7 @@ const onSubmit = handleSubmit(async values => {
 
   <div class="bg-white rounded-2xl shadow-xl border border-gray-100 p-6 space-y-4">
     <div class="text-center space-y-2">
-      <h2 class="text-2xl font-semibold">Create account</h2>
+      <h2 class="text-2xl font-semibold">Sign in to our platform</h2>
       <p class="text-sm text-gray-500">Start your journey with us</p>
     </div>
 
@@ -84,16 +75,13 @@ const onSubmit = handleSubmit(async values => {
           required
         />
       </div>
-    </form>
-    <!-- Divider -->
-    <!-- <div class="relative text-center text-sm text-gray-400 my-5">
-      <span class="bg-white px-3 relative z-10">or continue with email</span>
-      <div class="absolute inset-0 flex items-center">
-        <div class="w-full border-t"></div>
-      </div>
-    </div> -->
 
-    <!-- <SocialRegisterButton @google="loginWithGoogle" @github="loginWithGithub" /> -->
+      <Button
+        class="w-full h-11 rounded-xl bg-emerald-500 text-white font-medium hover:bg-emerald-200 disabled:opacity-50"
+      >
+        Sign in with your account
+      </Button>
+    </form>
     <!-- divider -->
     <div class="flex items-center gap-3 text-xs text-slate-400">
       <div class="h-px bg-slate-200 flex-1" />

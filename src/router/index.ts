@@ -5,7 +5,14 @@ import { setupGuards } from '@/router/guard'
 
 const router = createRouter({
   history: createWebHistory(),
-  routes: [...authRoutes],
+  routes: [
+    {
+      path: '/',
+      name: 'home',
+      component: () => import('@/pages/HomePage.vue'),
+    },
+    ...authRoutes,
+  ],
   scrollBehavior: () => ({ top: 0 }),
 })
 
