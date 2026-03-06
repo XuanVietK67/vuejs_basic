@@ -4,10 +4,19 @@
 
 // createApp(App).mount('#app')
 
-
 import { createApp } from 'vue'
 import App from './App.vue'
 import router from './router'
+import { setupQueryPlugin } from './plugins/query'
 import './style.css'
 
-createApp(App).use(router).mount('#app')
+const app = createApp(App)
+
+// Setup Vue Router
+app.use(router)
+
+// Setup TanStack Query
+setupQueryPlugin(app)
+
+// Mount app
+app.mount('#app')
