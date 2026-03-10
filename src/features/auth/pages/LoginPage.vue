@@ -17,6 +17,7 @@ const {
   errors,
   // , isSubmitting, values
 } = useForm<RegisterInput>({
+  
   validationSchema: toTypedSchema(registerSchema),
 })
 
